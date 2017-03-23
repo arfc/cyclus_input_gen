@@ -1,0 +1,18 @@
+<region>
+    <name>Sink_Source</name>
+    <config><NullRegion/></config>
+        <institution>  
+    	   <name>Sink_Source</name>
+    	   <config><NullInst/></config>
+    		<initialfacilitylist>
+    			<entry>
+    				<number>1</number>
+    				<prototype>SomeSource</prototype>
+    			</entry>
+    			<entry>
+    				<number>1</number>
+    				<prototype>SomeSink</prototype>
+    			</entry>
+    		</initialfacilitylist>
+        </institution>
+</region>
