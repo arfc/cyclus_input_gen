@@ -67,11 +67,9 @@ def read_csv(csv_file, country_list):
     for indx, reactor in enumerate(reactor_array):
         if reactor['country'].decode('utf-8') not in country_list:
             indx_list.append(indx)
-
     reactor_array = np.delete(reactor_array, indx_list, axis=0)
 
     for indx, reactor in enumerate(reactor_array):
-        print(reactor['reactor_name'])
         reactor_array[indx]['const_date'] = std_date_format(
             reactor['const_date'])
         reactor_array[indx]['first_crit'] = std_date_format(reactor['first_crit'])
