@@ -494,7 +494,7 @@ def region_render(reactor_data, output_file):
         os.system('rm ' + country + '_region')
 
 
-def main(csv_file, init_date, duration, output_file, reprocessing=True):
+def main(csv_file, init_date, duration, output_file='complete_input.xml', reprocessing=True):
     """ Generates cyclus input file from csv files and jinja templates.
 
     Parameters
