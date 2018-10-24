@@ -2,6 +2,7 @@ import sys
 import jinja2
 import numpy as np
 import os
+from datetime import datetime
 
 # tells command format if input is invalid
 
@@ -41,24 +42,62 @@ def read_csv(csv_file):
         array with the data from csv file
     """
     reactor_array = np.genfromtxt(csv_file,
-                                  skip_header=1,
+                                  skip_header=2,
                                   delimiter=',',
                                   dtype=('S128', 'S128',
                                          'S128', 'int',
-                                         'S128', 'S128', 'int',
+                                         'S128', 'S128', 'S128',
                                          'int', 'S128',
-                                         'int', 'int',
-                                         'int', 'int',
-                                         'int', 'float'),
+                                         
+                                         'S128', 'S128',
+                                         'S128', 'float',
+                                         'float', 'float',
+                                         'int', 'int'),
                                   names=('country', 'reactor_name',
                                          'type', 'net_elec_capacity',
                                          'status', 'operator', 'const_date',
                                          'cons_year', 'first_crit',
-                                         'entry_time', 'lifetime',
+
                                          'first_grid', 'commercial',
-                                         'shutdown_date', 'ucf'))
+                                         'shutdown_date', 'ucf',
+                                         'lat', 'long'
+                                         'entry_time', 'lifetime'))
+    for indx, reactor in enumerate(reactor_array):
+        print(indx)
+        reactor_array[indx]['const_date'] = std_date_format(
+            reactor['const_date'])
+        reactor_array[indx]['first_crit'] = std_date_format(reactor['first_crit'])
+        reactor_array[indx]['first_grid'] = std_date_format(
+            reactor['first_grid'])
+        reactor_array[indx]['commercial'] = std_date_format(
+            reactor['commercial'])
+        reactor_array[indx]['shutdown_date'] = std_date_format(
+            reactor['shutdown_date'])
+        
     return filter_test_reactors(reactor_array)
 
+def std_date_format(date_string):
+    """ This function converts date format MM/DD/YYYY to YYYYMMDD
+
+    Parameters:
+    -----------
+    date_string: str
+        string with date
+    
+    Returns:
+    --------
+    date: int
+        integer date with format YYYYMMDD
+    """
+    date_string = date_string.decode('utf-8')
+
+    if date_string.count('/') == 2:
+        obj = datetime.strptime(date_string, '%m/%d/%Y')
+        return int(obj.strftime('%Y%m%d'))
+    if len(date_string) == 4:
+        # default first of the year if only year is given
+        return int(date_string + '0101')
+        
 
 def filter_test_reactors(reactor_array):
     """This function filters experimental reactors that have a
@@ -100,7 +139,7 @@ def get_ymd(yyyymmdd):
     month: int
         month
     """
-
+    print(yyyymmdd)
     year = yyyymmdd // 10000
     month = (yyyymmdd // 100) % 100
     day = yyyymmdd % 100
@@ -160,8 +199,8 @@ def get_entrytime(init_date, start_date):
         timestep of the prototype to enter
 
     """
-
     init_year, init_month = get_ymd(init_date)
+    start_date = int(start_date)
     start_year, start_month = get_ymd(start_date)
 
     year_difference = start_year - init_year
@@ -486,7 +525,10 @@ def main(csv_file, init_date, duration, output_file, reprocessing=True):
     # read csv and templates
     csv_database = read_csv(csv_file)
     for data in csv_database:
+        print(data['reactor_name'])
+        print(data['first_crit'])
         entry_time = get_entrytime(init_date, data['first_crit'])
+        print('d')
         lifetime = get_lifetime(data['first_crit'], data['shutdown_date'])
         if entry_time <= 0:
             lifetime = lifetime + entry_time
