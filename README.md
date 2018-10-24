@@ -7,8 +7,8 @@ The assumptions for the parameters are as follows:
 	Refueling 	= 2 months (timesteps) for all
 	assembly mass 	= 180 UO2 / assembly for BWRs
 			  		  523.4 UO2 / assembly for rest [PWR]
-	#of assemblies 	= 193 for 1110MWe (PWR)
-                      830 for 1098MWe (BWR),
+	#of assemblies 	= 157 for 1110MWe (PWR)
+                      764 for 1098MWe (BWR),
                       linearly adjusted for other capacities
 
 This script allows generation of CYCLUS input file types from csv files.
