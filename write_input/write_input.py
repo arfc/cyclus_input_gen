@@ -29,7 +29,7 @@ def delete_file(file):
         os.system('rm ' + file)
 
 
-def read_csv(csv_file):
+def read_csv(csv_file, country_list):
     """This function reads the csv file and returns the list.
 
     Parameters
@@ -63,7 +63,15 @@ def read_csv(csv_file):
                                          'shutdown_date', 'ucf',
                                          'lat', 'long',
                                          'entry_time', 'lifetime'))
+    indx_list = []
     for indx, reactor in enumerate(reactor_array):
+        if reactor['country'].decode('utf-8') not in country_list:
+            indx_list.append(indx)
+
+    reactor_array = np.delete(reactor_array, indx_list, axis=0)
+
+    for indx, reactor in enumerate(reactor_array):
+        print(reactor['reactor_name'])
         reactor_array[indx]['const_date'] = std_date_format(
             reactor['const_date'])
         reactor_array[indx]['first_crit'] = std_date_format(reactor['first_crit'])
@@ -75,6 +83,8 @@ def read_csv(csv_file):
             reactor['shutdown_date'])
         
     return filter_test_reactors(reactor_array)
+
+
 
 def std_date_format(date_string):
     """ This function converts date format MM/DD/YYYY to YYYYMMDD
@@ -494,7 +504,7 @@ def region_render(reactor_data, output_file):
         os.system('rm ' + country + '_region')
 
 
-def main(csv_file, init_date, duration, output_file='complete_input.xml', reprocessing=True):
+def main(csv_file, init_date, duration, country_list, output_file='complete_input.xml', reprocessing=True):
     """ Generates cyclus input file from csv files and jinja templates.
 
     Parameters
@@ -505,6 +515,8 @@ def main(csv_file, init_date, duration, output_file='complete_input.xml', reproc
         yyyymmdd format of initial date of simulation
     input_template: str
         template file for entire complete cyclus input file
+    country_list: list of str
+        list of countries to take into account
     output_file: str
         directory and name of complete cyclus input file
     reprocessing: bool
@@ -523,7 +535,8 @@ def main(csv_file, init_date, duration, output_file='complete_input.xml', reproc
     reactor_output_filename = 'reactor_output.xml.in'
     region_output_filename = 'region_output.xml.in'
     # read csv and templates
-    csv_database = read_csv(csv_file)
+    csv_database = read_csv(csv_file, country_list)
+
     for data in csv_database:
         entry_time = get_entrytime(init_date, data['first_crit'])
         lifetime = get_lifetime(data['first_crit'], data['shutdown_date'])

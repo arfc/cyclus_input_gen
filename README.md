@@ -1,5 +1,8 @@
 # pris-input-gen
-Python package for automatic generation of Cyclus input files of nuclear operation history using the International Atomic Energy Agency (IAEA) Power Reactor Information System (PRIS) database
+Python package for automatic generation of Cyclus input files of nuclear operation history using the International Atomic Energy Agency (IAEA) Power Reactor Information System (PRIS) database.
+
+The IAEA PRIS database is collected and curated (in `database/reactors_pris_2016.csv`),
+but there are still missing values, mostly of future planned reactors. 
 
 The assumptions for the parameters are as follows:
 
