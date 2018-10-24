@@ -2,7 +2,7 @@
 Python package for automatic generation of Cyclus input files of nuclear operation history using the International Atomic Energy Agency (IAEA) Power Reactor Information System (PRIS) database.
 
 The IAEA PRIS database is collected and curated (in `database/reactors_pris_2016.csv`),
-but there are still missing values, mostly of future planned reactors. 
+but there are still missing values, mostly of future planned reactors.
 
 The assumptions for the parameters are as follows:
 
@@ -16,13 +16,15 @@ The assumptions for the parameters are as follows:
 
 This script allows generation of CYCLUS input file types from csv files.
 
-Input : csv file, initial_time, duration, [optional: output_file, reprocessing]
+Input : csv file, initial_time, duration, country_list, [optional: output_file, reprocessing]
 	    
     csv_file: the csv file containing country, reactor name and capacity
     
     initial_time: initial time of the simulation in yyyymmdd
 
     duration: duration of the simulation in months
+
+	country_list: list of countries to extract
 
 	output_file: string for output file path
 
@@ -38,5 +40,5 @@ Then run:
 ```
 python
 import write_input.write_input as wi
-wi.main([csv_file], [init_date],[duration], [output_file], [reprocessing_bool])
+wi.main([csv_file], [init_date],[duration], [list_of_countries], [output_file], [reprocessing_bool])
 ```
