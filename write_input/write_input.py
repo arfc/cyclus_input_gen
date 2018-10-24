@@ -3,6 +3,7 @@ import jinja2
 import numpy as np
 import os
 from datetime import datetime
+from write_input.templates import template_collections
 
 # tells command format if input is invalid
 
@@ -60,10 +61,9 @@ def read_csv(csv_file):
 
                                          'first_grid', 'commercial',
                                          'shutdown_date', 'ucf',
-                                         'lat', 'long'
+                                         'lat', 'long',
                                          'entry_time', 'lifetime'))
     for indx, reactor in enumerate(reactor_array):
-        print(indx)
         reactor_array[indx]['const_date'] = std_date_format(
             reactor['const_date'])
         reactor_array[indx]['first_crit'] = std_date_format(reactor['first_crit'])
@@ -97,6 +97,8 @@ def std_date_format(date_string):
     if len(date_string) == 4:
         # default first of the year if only year is given
         return int(date_string + '0101')
+    if date_string == '':
+        return int(-1)
         
 
 def filter_test_reactors(reactor_array):
@@ -139,7 +141,7 @@ def get_ymd(yyyymmdd):
     month: int
         month
     """
-    print(yyyymmdd)
+    yyyymmdd = int(yyyymmdd)
     year = yyyymmdd // 10000
     month = (yyyymmdd // 100) % 100
     day = yyyymmdd % 100
@@ -231,9 +233,7 @@ def read_template(template):
     """
 
     # takes second argument file as reactor template
-    with open(template, 'r') as fp:
-        input_template = fp.read()
-        output_template = jinja2.Template(input_template)
+    output_template = jinja2.Template(template)
 
     return output_template
 
@@ -281,15 +281,15 @@ def reactor_render(reactor_data, output_file, is_cyborg=False):
 
     """
 
-    template_path = '../templates/[reactor]_template_cyborg.xml.in'
+    pwr_template = read_template(template_collections.pwr_template)
+    mox_reactor_template = read_template(template_collections.mox_template)
+    candu_template = read_template(template_collections.candu_template)
 
-    if not is_cyborg:
-        template_path = template_path.replace('_cyborg', '')
+    if is_cyborg:
+        pwr_template = read_template(template_collections.pwr_template_cyborg)
+        mox_reactor_template = read_template(template_collections.mox_template_cyborg)
+        candu_template = read_template(template_collections.candu_template_cyborg)
 
-    pwr_template = read_template(template_path.replace('[reactor]', 'pwr'))
-    mox_reactor_template = read_template(
-        template_path.replace('[reactor]', 'mox'))
-    candu_template = read_template(template_path.replace('[reactor]', 'candu'))
 
     ap1000_spec = {'template': pwr_template,
                    'kg_per_assembly': 446.0,
@@ -380,7 +380,7 @@ def input_render(init_date, duration, reactor_file,
     A complete cylus input file.
 
     """
-    template = read_template('../templates/input_template.xml.in')
+    template = read_template(template_collections.input_template)
     with open(reactor_file, 'r') as fp:
         reactor = fp.read()
     with open(region_file, 'r') as bae:
@@ -426,9 +426,9 @@ def region_render(reactor_data, output_file):
 
     """
     # template only has prototype, buildtime, n_build and lifetime
-    template = read_template('../templates/deployinst_template.xml.in')
+    template = read_template(template_collections.deployinst_template)
     # full template is the bigger template for the `region block'.
-    full_template = read_template('../templates/region_output_template.xml.in')
+    full_template = read_template(template_collections.region_output_template)
     country_list = []
     empty_country = []
 
@@ -525,10 +525,7 @@ def main(csv_file, init_date, duration, output_file, reprocessing=True):
     # read csv and templates
     csv_database = read_csv(csv_file)
     for data in csv_database:
-        print(data['reactor_name'])
-        print(data['first_crit'])
         entry_time = get_entrytime(init_date, data['first_crit'])
-        print('d')
         lifetime = get_lifetime(data['first_crit'], data['shutdown_date'])
         if entry_time <= 0:
             lifetime = lifetime + entry_time
