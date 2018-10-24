@@ -6,26 +6,32 @@ The assumptions for the parameters are as follows:
 	Cycle 		= 18 months (timesteps) for all
 	Refueling 	= 2 months (timesteps) for all
 	assembly mass 	= 180 UO2 / assembly for BWRs
-			  		  523.4 UO2 / assembly for rest [PWR]
+			  		  446 UO2 / assembly for rest [PWR]
 	#of assemblies 	= 157 for 1110MWe (PWR)
                       764 for 1098MWe (BWR),
                       linearly adjusted for other capacities
 
 This script allows generation of CYCLUS input file types from csv files.
 
-Input : csv file, initial_time, duration, reprocessing 
-
-
+Input : csv file, initial_time, duration, reprocessing  (boolean)
 	    
     csv_file: the csv file containing country, reactor name and capacity
     
     initial_time: initial time of the simulation in yyyymmdd
 
     duration: duration of the simulation in months
+
+	reprocessing: adds a reprocessing template if True (1)
     
     
 Output : A complete input file ready for simulation. (default: complete_input.xml)
     
-To run:
+To install:
+``` python setup.py install ```
 
-	python write_reactors.py [csv_file] [init_time] [duration]
+Then run:
+```
+python
+import write_input.write_input as wi
+wi.main([csv_file], [init_date],[duration], [output_file], [reprocessing_bool])
+```

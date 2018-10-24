@@ -83,7 +83,7 @@ def filter_test_reactors(reactor_array):
     return np.delete(reactor_array, hitlist)
 
 
-def ymd(yyyymmdd):
+def get_ymd(yyyymmdd):
     """This function extracts year and month value from yyyymmdd format
 
         The month value is rounded up if the day is above 16
@@ -109,7 +109,7 @@ def ymd(yyyymmdd):
     return (year, month)
 
 
-def protoype_lifetime(start_date, end_date):
+def get_lifetime(start_date, end_date):
     """This function gets the lifetime for a prototype given the
        start and end date.
 
@@ -128,8 +128,8 @@ def protoype_lifetime(start_date, end_date):
     """
 
     if end_date != -1:
-        end_year, end_month = ymd(end_date)
-        start_year, start_month = ymd(start_date)
+        end_year, end_month = get_ymd(end_date)
+        start_year, start_month = get_ymd(start_date)
         year_difference = end_year - start_year
         month_difference = end_month - start_month
         if month_difference < 0:
@@ -161,8 +161,8 @@ def get_entrytime(init_date, start_date):
 
     """
 
-    init_year, init_month = ymd(init_date)
-    start_year, start_month = ymd(start_date)
+    init_year, init_month = get_ymd(init_date)
+    start_year, start_month = get_ymd(start_date)
 
     year_difference = start_year - init_year
     month_difference = start_month - init_month
@@ -347,7 +347,7 @@ def input_render(init_date, duration, reactor_file,
     with open(region_file, 'r') as bae:
         region = bae.read()
 
-    startyear, startmonth = ymd(init_date)
+    startyear, startmonth = get_ymd(init_date)
 
     # has reprocessing chunk if reprocessing boolean is true.
     if reprocessing is True:
@@ -487,7 +487,7 @@ def main(csv_file, init_date, duration, output_file, reprocessing=True):
     csv_database = read_csv(csv_file)
     for data in csv_database:
         entry_time = get_entrytime(init_date, data['first_crit'])
-        lifetime = protoype_lifetime(data['first_crit'], data['shutdown_date'])
+        lifetime = get_lifetime(data['first_crit'], data['shutdown_date'])
         if entry_time <= 0:
             lifetime = lifetime + entry_time
             if lifetime < 0:
