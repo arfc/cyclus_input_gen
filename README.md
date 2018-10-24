@@ -13,13 +13,15 @@ The assumptions for the parameters are as follows:
 
 This script allows generation of CYCLUS input file types from csv files.
 
-Input : csv file, initial_time, duration, reprocessing  (boolean)
+Input : csv file, initial_time, duration, [optional: output_file, reprocessing]
 	    
     csv_file: the csv file containing country, reactor name and capacity
     
     initial_time: initial time of the simulation in yyyymmdd
 
     duration: duration of the simulation in months
+
+	output_file: string for output file path
 
 	reprocessing: adds a reprocessing template if True (1)
     
