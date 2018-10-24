@@ -1,9 +1,15 @@
-from setuptools import setup
+from distutils.core import setup
 
-setup(name='pris_input_gen',
-      version='0.1',
-      description='Cyclus input generation from PRIS database',
-      url='http://github.com/arfc/pris-input-gen',
-      author='Jin Whan Bae',
-      author_email='jbae11@illinois.edu',
-      packages=['write_input'])
+VERSION = '0.1'
+setup_kwargs = {
+    "version": VERSION,
+    "description": 'Cyclus input generation from PRIS database',
+    "author": 'Jin Whan Bae',
+}
+
+if __name__ == '__main__':
+    setup(
+        name='write_input',
+        packages=["write_input"],
+        **setup_kwargs
+    )
