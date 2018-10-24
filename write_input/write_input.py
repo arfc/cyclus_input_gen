@@ -501,6 +501,3 @@ def main(csv_file, init_date, duration, output_file, reprocessing=True):
     input_render(init_date, duration, reactor_output_filename,
                  region_output_filename, output_file, reprocessing)
 
-
-if __name__ == "__main__":
-    main(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), sys.argv[4])
