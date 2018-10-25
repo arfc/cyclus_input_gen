@@ -1,5 +1,13 @@
-# pris-input-gen
-Python package for automatic generation of Cyclus input files of nuclear operation history using the International Atomic Energy Agency (IAEA) Power Reactor Information System (PRIS) database.
+# cyclus-input-gen
+Python package for automatic generation of Cyclus input files.
+
+
+To install:
+``` python setup.py install ```
+
+
+## from_pris
+Generates Cyclus input file of nuclear operation history using the International Atomic Energy Agency (IAEA) Power Reactor Information System (PRIS) database.
 
 The IAEA PRIS database is collected and curated (in `database/reactors_pris_2016.csv`),
 but there are still missing values, mostly of future planned reactors.
@@ -33,12 +41,17 @@ Input : csv file, initial_time, duration, country_list, [optional: output_file, 
     
 Output : A complete input file ready for simulation. (default: complete_input.xml)
     
-To install:
-``` python setup.py install ```
-
 Then run:
 ```
 python
 import write_input.write_input as wi
 wi.main([csv_file], [init_date],[duration], [list_of_countries], [output_file], [reprocessing_bool])
 ```
+
+## templates
+Contains templates to be used in `from_pris`
+
+
+## demand_deploy
+Calculates deploy array to meet a power demand equation.
+Also generates Cycamore::DeployInst xml block from the calculated deploy array
