@@ -28,11 +28,15 @@ jobs:
         - restore_cache:
             keys:
               - v1-repo-{{ checksum ".circle-sha" }}
+        - checkout
+        - run:
+            name: build
+            command: python setup.py install
         - run:
             name: run tests
             command: |
               pip install -U pytest
-              pytest tests/test_demand_deploy.py
+              pytest ~/pris-input-gen/tests/test_demand_deploy.py
               pytest tests/test_from_pris.py
 
 workflows:
