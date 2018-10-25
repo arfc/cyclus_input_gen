@@ -1,1 +1,0 @@
-import write_input

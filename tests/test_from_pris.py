@@ -2,7 +2,7 @@ import numpy as np
 import collections
 import os
 import sys
-import write_input.from_pris as fp
+import cyclus_input_gen.from_pris as fp
 
 dir = os.path.dirname(__file__)
 test_database_path = os.path.join(dir, 'test_database.csv')
@@ -10,7 +10,8 @@ test_database_path = os.path.join(dir, 'test_database.csv')
 
 def test_read_csv():
     """Test if read_csv returns the correct list with key"""
-    reactor_array = fp.read_csv(test_database_path, ['France', 'Czech_Republic'])
+    reactor_array = fp.read_csv(test_database_path,
+                                ['France', 'Czech_Republic'])
     print(type(reactor_array))
     test_dict = {}
     test_dict['country1'] = reactor_array[0]['country'].decode('utf-8')

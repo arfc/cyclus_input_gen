@@ -6,7 +6,7 @@ To install:
 ``` python setup.py install ```
 
 Then import it anywhere using:
-``` import write_input.[module_name] ```
+``` import cyclus_input_gen.[module_name] ```
 
 ## from_pris
 Generates Cyclus input file of nuclear operation history using the International Atomic Energy Agency (IAEA) Power Reactor Information System (PRIS) database.
@@ -46,8 +46,8 @@ Output : A complete input file ready for simulation. (default: complete_input.xm
 Then run:
 ```
 python
-import write_input.write_input as wi
-wi.main([csv_file], [init_date],[duration], [list_of_countries], [output_file], [reprocessing_bool])
+import cyclus_input_gen.from_pris as fp
+fp.main([csv_file], [init_date],[duration], [list_of_countries], [output_file], [reprocessing_bool])
 ```
 
 ## templates
