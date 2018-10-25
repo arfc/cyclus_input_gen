@@ -8,8 +8,8 @@ from write_input.templates import template_collections
 # tells command format if input is invalid
 
 if len(sys.argv) < 4:
-    print('Usage: python write_input.py [csv]' +
-          '[init_date] [duration] [output_file_name]')
+    print('Usage: write_input.main([csv],' +
+          '[init_date], [duration], [country_list], [output_file_name])')
 
 
 def delete_file(file):
