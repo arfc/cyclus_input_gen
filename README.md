@@ -5,6 +5,8 @@ Python package for automatic generation of Cyclus input files.
 To install:
 ``` python setup.py install ```
 
+Then import it anywhere using:
+``` import write_input.[module_name] ```
 
 ## from_pris
 Generates Cyclus input file of nuclear operation history using the International Atomic Energy Agency (IAEA) Power Reactor Information System (PRIS) database.
