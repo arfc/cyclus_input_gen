@@ -301,8 +301,8 @@ def reactor_render(reactor_data, output_file, is_cyborg=False):
 
     ap1000_spec = {'template': pwr_template,
                    'kg_per_assembly': 446.0,
-                   'assemblies_per_core': 157,
-                   'assemblies_per_batch': 52}
+                   'assemblies_per_core': 157 / 1110.0,
+                   'assemblies_per_batch': 52 / 3330.0}
     bwr_spec = {'template': pwr_template,
                 'kg_per_assembly': 180,
                 'assemblies_per_core': 764 / 1000.0,
@@ -458,7 +458,8 @@ def region_render(reactor_data, output_file):
         # file with its `region block`
         for data in reactor_data:
             if data['country'].decode('utf-8') == country:
-
+                if data['lifetime'] == 0:
+                    continue
                 prototype += (valhead
                               + refine_name(data['reactor_name'])
                               + valtail + '\n')
