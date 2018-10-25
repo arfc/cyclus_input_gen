@@ -1,4 +1,4 @@
-version: 1
+version: 2
 
 jobs:
 
@@ -25,6 +25,9 @@ jobs:
         - image: cyclus/cycamore
       working_directory: ~/pris-input-gen
       steps:
+        - restore_cache:
+            keys:
+              - v1-repo-{{ checksum ".circle-sha" }}
         - run:
             name: run tests
             command: |
@@ -32,10 +35,10 @@ jobs:
               pytest tests/test_from_pris.py
 
 workflows:
-        version: 1
-        build:
+        version: 2
+        build_and_test:
             jobs:
-              - build
-              - unit_tests:
-                  requires:
-                    - build
+                - build
+                - unit_tests:
+                    requires:
+                        - build
