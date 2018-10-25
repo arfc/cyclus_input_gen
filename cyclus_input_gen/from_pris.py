@@ -3,12 +3,12 @@ import jinja2
 import numpy as np
 import os
 from datetime import datetime
-from write_input.templates import template_collections
+from cyclus_input_gen.templates import template_collections
 
 # tells command format if input is invalid
 
 if len(sys.argv) < 4:
-    print('Usage: write_input.main([csv],' +
+    print('Usage: from_pris.main([csv],' +
           '[init_date], [duration], [country_list], [output_file_name])')
 
 

@@ -2,7 +2,7 @@ import numpy as np
 import collections
 import os
 import sys
-import write_input.demand_deploy as dd
+import cyclus_input_gen.demand_deploy as dd
 
 
 

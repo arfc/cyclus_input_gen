@@ -2,7 +2,7 @@ import numpy as np
 import collections
 import os
 import sys
-import write_input.from_pris as fp
+import cyclus_input_gen.from_pris as fp
 
 dir = os.path.dirname(__file__)
 test_database_path = os.path.join(dir, 'test_database.csv')

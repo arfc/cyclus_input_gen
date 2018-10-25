@@ -9,7 +9,7 @@ setup_kwargs = {
 
 if __name__ == '__main__':
     setup(
-        name='write_input',
-        packages=["write_input"],
+        name='cyclus_input_gen',
+        packages=["cyclus_input_gen"],
         **setup_kwargs
     )
