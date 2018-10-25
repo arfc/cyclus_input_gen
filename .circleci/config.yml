@@ -33,9 +33,9 @@ jobs:
 
 workflows:
         version: 1
-        build_and_test:
+        build:
             jobs:
-                - build
-                - unit_tests:
+              - build
+              - unit_tests:
                   requires:
                     - build
