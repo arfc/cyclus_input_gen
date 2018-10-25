@@ -1,0 +1,39 @@
+version: 1
+
+jobs:
+
+    build:
+      docker:
+        - image: cyclus/cycamore
+      working_directory: ~/pris-input-gen
+      steps:
+        - run: apt-get -qq update; apt-get -y install git openssh-client
+        - checkout
+        - run:
+            name: build pris-input-gen
+            command: python setup.py install
+        - run:
+            name: save SHA to a file
+            command: echo $CIRCLE_SHA1 > .circle-sha
+        - save_cache:
+            key: v1-repo-{{ checksum ".circle-sha" }}
+            paths:
+              - /root
+    
+    unit_tests:
+      docker:
+        - image: cyclus/cycamore
+      working_directory: ~/pris-input-gen
+      steps:
+        - run:
+            name: run tests
+            command: |
+              pytest tests/test_demand_deploy.py
+              pytest tests/test_from_pris.py
+
+workflows:
+        version: 1
+        build_and_test:
+            jobs:
+                - build
+                - unit_tests
