@@ -31,6 +31,7 @@ jobs:
         - run:
             name: run tests
             command: |
+              pip install -U pytest
               pytest tests/test_demand_deploy.py
               pytest tests/test_from_pris.py
 
