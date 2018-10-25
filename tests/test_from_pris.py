@@ -10,7 +10,7 @@ test_database_path = os.path.join(dir, 'test_database.csv')
 
 def test_read_csv():
     """Test if read_csv returns the correct list with key"""
-    reactor_array = fp.read_csv(test_database_path)
+    reactor_array = fp.read_csv(test_database_path, ['France', 'Czech_Republic'])
     print(type(reactor_array))
     test_dict = {}
     test_dict['country1'] = reactor_array[0]['country'].decode('utf-8')
