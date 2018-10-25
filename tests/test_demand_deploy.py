@@ -5,7 +5,6 @@ import sys
 import cyclus_input_gen.demand_deploy as dd
 
 
-
 def test_get_new_deployment_prev():
     """Test get new deployment"""
     length = 10

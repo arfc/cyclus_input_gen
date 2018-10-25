@@ -48,8 +48,7 @@ def read_csv(csv_file, country_list):
                                   dtype=('S128', 'S128',
                                          'S128', 'int',
                                          'S128', 'S128', 'S128',
-                                         'int', 'S128',
-                                         
+                                         'int', 'S128',                                         
                                          'S128', 'S128',
                                          'S128', 'float',
                                          'float', 'float',
@@ -58,7 +57,6 @@ def read_csv(csv_file, country_list):
                                          'type', 'net_elec_capacity',
                                          'status', 'operator', 'const_date',
                                          'cons_year', 'first_crit',
-
                                          'first_grid', 'commercial',
                                          'shutdown_date', 'ucf',
                                          'lat', 'long',
@@ -85,7 +83,8 @@ def read_csv(csv_file, country_list):
 
 
 def std_date_format(date_string):
-    """ This function converts date format MM/DD/YYYY to YYYYMMDD
+    """ This function converts date format
+        MM/DD/YYYY to YYYYMMDD
 
     Parameters:
     -----------
@@ -298,7 +297,6 @@ def reactor_render(reactor_data, output_file, is_cyborg=False):
         mox_reactor_template = read_template(template_collections.mox_template_cyborg)
         candu_template = read_template(template_collections.candu_template_cyborg)
 
-
     ap1000_spec = {'template': pwr_template,
                    'kg_per_assembly': 446.0,
                    'assemblies_per_core': 157 / 1110.0,
@@ -503,7 +501,8 @@ def region_render(reactor_data, output_file):
         os.system('rm ' + country + '_region')
 
 
-def main(csv_file, init_date, duration, country_list, output_file='complete_input.xml', reprocessing=True):
+def main(csv_file, init_date, duration,
+         country_list, output_file='complete_input.xml', reprocessing=True):
     """ Generates cyclus input file from csv files and jinja templates.
 
     Parameters
@@ -551,4 +550,3 @@ def main(csv_file, init_date, duration, country_list, output_file='complete_inpu
     region_render(csv_database, region_output_filename)
     input_render(init_date, duration, reactor_output_filename,
                  region_output_filename, output_file, reprocessing)
-
