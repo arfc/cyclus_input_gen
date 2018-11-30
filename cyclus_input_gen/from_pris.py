@@ -60,7 +60,8 @@ def read_csv(csv_file, country_list):
                                          'first_grid', 'commercial',
                                          'shutdown_date', 'ucf',
                                          'lat', 'long',
-                                         'entry_time', 'lifetime'))
+                                         'entry_time', 'lifetime'),
+                                  missing_values=-1)
     indx_list = []
     for indx, reactor in enumerate(reactor_array):
         if reactor['country'].decode('utf-8') not in country_list:
@@ -174,7 +175,6 @@ def get_lifetime(start_date, end_date):
         lifetime of the prototype in months
 
     """
-
     if end_date != -1:
         end_year, end_month = get_ymd(end_date)
         start_year, start_month = get_ymd(start_date)
@@ -266,32 +266,27 @@ def refine_name(name_data):
     return name
 
 
-def reactor_render(reactor_data, output_file, is_cyborg=False):
+def reactor_render(reactor_data, is_cyborg=False):
     """Takes the list and template and writes a reactor file
 
     Parameters
     ----------
     reactor_data: list
         list of data on reactors
-    template: jinja.template
-        jinja template for reactor file
-    mox_template: jinja.template
-        jinja template for mox reactor file
-    output_file: str
-        name of output file
     is_cyborg: bool
         if True, uses Cyborg templates
 
     Returns
     -------
-    The reactor section of cyclus input file
+    reactor_body: str
+        reactor body input file block
 
     """
 
     pwr_template = read_template(template_collections.pwr_template)
     mox_reactor_template = read_template(template_collections.mox_template)
     candu_template = read_template(template_collections.candu_template)
-
+    output_string = ''
     if is_cyborg:
         pwr_template = read_template(template_collections.pwr_template_cyborg)
         mox_reactor_template = read_template(template_collections.mox_template_cyborg)
@@ -359,22 +354,21 @@ def reactor_render(reactor_data, output_file, is_cyborg=False):
                 n_assem_batch=int(
                     round(data['net_elec_capacity'] / 3000 * 193)),
                 capacity=data['net_elec_capacity'])
+        output_string += reactor_body
+    return output_string
 
-        with open(output_file, 'a') as output:
-            output.write(reactor_body)
 
-
-def input_render(init_date, duration, reactor_file,
-                 region_file, output_file, reprocessing):
+def input_render(init_date, duration, reactor_block,
+                 region_block, output_file, reprocessing):
     """Creates total input file from region and reactor file
 
     Parameters
     ---------
     init_date: int
         date of desired start of simulation (format yyyymmdd)
-    reactor_file: str
+    reactor_block: str
         jinja rendered reactor section of cyclus input file
-    region_file: str
+    region_block: str
         jinja rendered region section of cylcus input file
     output_file: str
         name of output file
@@ -387,10 +381,6 @@ def input_render(init_date, duration, reactor_file,
 
     """
     template = read_template(template_collections.input_template)
-    with open(reactor_file, 'r') as fp:
-        reactor = fp.read()
-    with open(region_file, 'r') as bae:
-        region = bae.read()
 
     startyear, startmonth = get_ymd(init_date)
 
@@ -407,16 +397,14 @@ def input_render(init_date, duration, reactor_file,
                                         startmonth=startmonth,
                                         startyear=startyear,
                                         reprocessing=reprocessing_chunk,
-                                        reactor_input=reactor,
-                                        region_input=region)
+                                        reactor_input=reactor_block,
+                                        region_input=region_block)
 
     with open(output_file, 'w') as output:
         output.write(rendered_template)
 
-    os.system('rm reactor_output.xml.in region_output.xml.in')
 
-
-def region_render(reactor_data, output_file):
+def region_render(reactor_data):
     """Takes the list and template and writes a region file
 
     Parameters
@@ -445,7 +433,7 @@ def region_render(reactor_data, output_file):
     for data in reactor_data:
         country_list.append(data['country'].decode('utf-8'))
     country_set = set(country_list)
-
+    country_output_dict = {}
     for country in country_set:
         prototype = ''
         entry_time = ''
@@ -472,8 +460,7 @@ def region_render(reactor_data, output_file):
                                       lifetime=lifetime)
         # if nothing is rendered the length will be less than 100:
         if len(render_temp) > 100:
-            with open(country, 'a') as output:
-                output.write(render_temp)
+            country_output_dict[country] = render_temp
         else:
             empty_country.append(country)
 
@@ -481,24 +468,14 @@ def region_render(reactor_data, output_file):
     for country in empty_country:
         country_set.remove(country)
 
+    tot_output_str = ''
     for country in country_set:
         # jinja render region template for different countries
-        with open(country, 'r') as ab:
-            country_input = ab.read()
-            country_body = full_template.render(
-                country=country,
-                country_gov=(country
-                             + '_government'),
-                deployinst=country_input)
-
-        # write rendered template as 'country'_region
-        with open(country + '_region', 'a') as output:
-            output.write(country_body)
-
-        # concatenate the made file to the final output file and remove temp
-        os.system('cat ' + country + '_region >> ' + output_file)
-        os.system('rm ' + country)
-        os.system('rm ' + country + '_region')
+        country_body = full_template.render(country=country,
+                                            country_gov=country+'_government',
+                                            deployinst=country_output_dict[country])
+        tot_output_str += country_body
+    return tot_output_str
 
 
 def main(csv_file, init_date, duration,
@@ -530,14 +507,13 @@ def main(csv_file, init_date, duration,
 
     # deletes previously existing files
     delete_file(output_file)
-    reactor_output_filename = 'reactor_output.xml.in'
-    region_output_filename = 'region_output.xml.in'
     # read csv and templates
     csv_database = read_csv(csv_file, country_list)
-
     for data in csv_database:
-        entry_time = get_entrytime(init_date, data['first_crit'])
-        lifetime = get_lifetime(data['first_crit'], data['shutdown_date'])
+        start_date = int(data['first_crit'].decode('utf-8'))
+        end_date = int(data['shutdown_date'].decode('utf-8'))
+        entry_time = get_entrytime(init_date, start_date)
+        lifetime = get_lifetime(start_date, end_date)
         if entry_time <= 0:
             lifetime = lifetime + entry_time
             if lifetime < 0:
@@ -545,8 +521,11 @@ def main(csv_file, init_date, duration,
             entry_time = 1
         data['entry_time'] = entry_time
         data['lifetime'] = lifetime
-    # renders reactor / region / input file.
-    reactor_render(csv_database, reactor_output_filename)
-    region_render(csv_database, region_output_filename)
-    input_render(init_date, duration, reactor_output_filename,
-                 region_output_filename, output_file, reprocessing)
+    # renders reactor / region / input file
+    reactor_block = reactor_render(csv_database)
+    region_block = region_render(csv_database)
+    #print(reactor_block)
+    #print('\n\n\n')
+    #print(region_block)
+    input_render(init_date, duration, reactor_block,
+                 region_block, output_file, reprocessing)
