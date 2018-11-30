@@ -316,8 +316,8 @@ def reactor_render(reactor_data, is_cyborg=False):
                 'assemblies_per_batch': 193 / 3000.0}
     epr_spec = {'template': pwr_template,
                 'kg_per_assembly': 467.0,
-                'assemblies_per_core': 216,
-                'assemblies_per_batch': 72}
+                'assemblies_per_core': 216 / 1670.0,
+                'assemblies_per_batch': 72 / 1670.0}
 
     reactor_specs = {'AP1000': ap1000_spec,
                      'PHWR': phwr_spec,
