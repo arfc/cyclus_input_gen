@@ -303,9 +303,9 @@ def reactor_render(reactor_data, is_cyborg=False):
                 'assemblies_per_core': 764 / 1000.0,
                 'assemblies_per_batch': 764 / 3000.0}
     phwr_spec = {'template': candu_template,
-                 'kg_per_assembly': 8000 / 473,
-                 'assemblies_per_core': 473 / 500.0,
-                 'assemblies_per_batch': 60}
+                 'kg_per_assembly': 8000 / 473 * 60,
+                 'assemblies_per_core': 473 / 500.0 / 60,
+                 'assemblies_per_batch': 1}
     candu_spec = {'template': candu_template,
                   'kg_per_assembly': 8000 / 473,
                   'assemblies_per_core': 473 / 500.0,
@@ -320,7 +320,7 @@ def reactor_render(reactor_data, is_cyborg=False):
                 'assemblies_per_batch': 72 / 1670.0}
 
     reactor_specs = {'AP1000': ap1000_spec,
-                     'PHWR': phwr_spec,
+                     # 'PHWR': phwr_spec,
                      'BWR': bwr_spec,
                      'CANDU': candu_spec,
                      'PWR': pwr_spec,
