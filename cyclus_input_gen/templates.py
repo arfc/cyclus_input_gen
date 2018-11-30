@@ -28,27 +28,21 @@ class template_collections:
 """
 
     region_output_template = """
-     <facility>
-    <!-- {{ country }} -->
-    <!-- {{   type  }} -->
-    <name>{{ reactor_name }}</name>
-    <config>
-      <Reactor>
-        <fuel_inrecipes>  <val>natl_u_recipe</val>       </fuel_inrecipes>
-        <fuel_outrecipes> <val>used_candu_recipe</val>  </fuel_outrecipes>
-        <fuel_incommods>  <val>natl_u</val>                   </fuel_incommods>
-        <fuel_outcommods> <val>used_candu</val>             </fuel_outcommods>
-        <fuel_prefs>      <val>1.0</val>                   </fuel_prefs>
-        <cycle_time>1</cycle_time>
-        <refuel_time>0</refuel_time>
-        <assem_size>{{assem_size}}</assem_size>
-        <n_assem_core>{{ n_assem_core}}</n_assem_core>
-        <n_assem_batch>{{n_assem_batch}}</n_assem_batch>
-        <power_cap>{{capacity}}</power_cap>
-      </Reactor>
-    </config>
-  </facility>
-"""
+  <region>
+      <name>{{country}}</name>
+      <config><NullRegion/></config>
+      <institution>
+        <name>{{country_gov}}</name>
+        <config>
+          <DeployInst>
+
+            {{ deployinst }}
+            
+          </DeployInst>
+        </config>
+      </institution>
+  </region>
+  """
 
     pwr_template_cyborg = """
     <facility>
@@ -574,16 +568,24 @@ class template_collections:
 """
 
     candu_template_cyborg = """
-    <prototypes>
-	{{ prototype }}
-</prototypes>
-<build_times>
-	{{ start_time }}
-</build_times>
-<n_build>
-	{{ number }}
-</n_build>
-<lifetimes>
-	{{ lifetime }}
-</lifetimes>
+    <facility>
+    <!-- {{ country }} -->
+    <!-- {{ type }}    -->
+    <name>{{reactor_name}}</name>
+    <config>
+      <Cyborg>
+        <power_cap>{{capacity}}</power_cap>
+        <assem_size>{{assem_size}}</assem_size>
+        <fuel_recipes>    <val>natl_u_recipe</val>      </fuel_recipes>
+        <fuel_incommods>  <val>natl_u</val>           </fuel_incommods>
+        <cycle_time>1</cycle_time>
+        <refuel_time>0</refuel_time>
+        <assembly_type>candu19</assembly_type>
+        <fuel_type>UOX</fuel_type>
+        <n_assem_core>{{n_assem_core}}</n_assem_core>
+        <n_assem_batch>{{n_assem_batch}}</n_assem_batch>
+        <spent_fuel>used_candu</spent_fuel>
+      </Cyborg>
+    </config>
+</facility>
 """
