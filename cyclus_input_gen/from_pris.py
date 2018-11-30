@@ -128,6 +128,8 @@ def filter_test_reactors(reactor_array):
     for data in reactor_array:
         if data['net_elec_capacity'] < 100:
             hitlist.append(count)
+        if data['type'] == 'FBR':
+            hitlist.append(count)
         count += 1
     return np.delete(reactor_array, hitlist)
 
@@ -263,7 +265,7 @@ def refine_name(name_data):
     end = name.find(')')
     if start != -1 and end != -1:
         name = name[:start]
-    return name
+    return name.strip()
 
 
 def reactor_render(reactor_data, is_cyborg=False):
