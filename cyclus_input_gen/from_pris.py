@@ -128,7 +128,7 @@ def filter_test_reactors(reactor_array):
     for data in reactor_array:
         if data['net_elec_capacity'] < 100:
             hitlist.append(count)
-        if data['type'] == 'FBR':
+        if data['type'].decode('utf-8') == 'FBR':
             hitlist.append(count)
         count += 1
     return np.delete(reactor_array, hitlist)
