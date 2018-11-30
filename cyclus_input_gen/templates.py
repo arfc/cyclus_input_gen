@@ -177,6 +177,10 @@ class template_collections:
     </spec>
     <spec>
       <lib>cycamore</lib>
+      <name>Storage</name>
+    </spec>
+    <spec>
+      <lib>cycamore</lib>
       <name>Sink</name>
     </spec>
     <spec>
