@@ -13,7 +13,7 @@ class template_collections:
       <Reactor>
         <fuel_inrecipes>  <val>natl_u_recipe</val>       </fuel_inrecipes>
         <fuel_outrecipes> <val>used_candu_recipe</val>  </fuel_outrecipes>
-        <fuel_incommods>  <val>natl_u</val>                   </fuel_incommods>
+        <fuel_incommods>  <val>candu_fuel</val>                   </fuel_incommods>
         <fuel_outcommods> <val>used_candu</val>             </fuel_outcommods>
         <fuel_prefs>      <val>1.0</val>                   </fuel_prefs>
         <cycle_time>1</cycle_time>
