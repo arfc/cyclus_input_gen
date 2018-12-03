@@ -48,7 +48,7 @@ def read_csv(csv_file, country_list):
                                   dtype=('S128', 'S128',
                                          'S128', 'int',
                                          'S128', 'S128', 'S128',
-                                         'int', 'S128',                                         
+                                         'int', 'S128',
                                          'S128', 'S128',
                                          'S128', 'float',
                                          'float', 'float',
@@ -80,9 +80,8 @@ def read_csv(csv_file, country_list):
             reactor['commercial'])
         reactor_array[indx]['shutdown_date'] = std_date_format(
             reactor['shutdown_date'])
-        
-    return filter_test_reactors(reactor_array)
 
+    return filter_test_reactors(reactor_array)
 
 
 def std_date_format(date_string):
@@ -93,7 +92,7 @@ def std_date_format(date_string):
     -----------
     date_string: str
         string with date
-    
+
     Returns:
     --------
     date: int
@@ -109,7 +108,7 @@ def std_date_format(date_string):
         return int(date_string + '0101')
     if date_string == '':
         return int(-1)
-        
+
 
 def filter_test_reactors(reactor_array):
     """This function filters experimental reactors that have a
@@ -306,7 +305,7 @@ def reactor_render(reactor_data, is_cyborg=False):
                 'assemblies_per_batch': 764 / 3000.0}
     phwr_spec = {'template': candu_template,
                  'kg_per_assembly': 8000 / 473 / 60.0,
-                 'assemblies_per_core': 473 / 500.0 / 60.0 ,
+                 'assemblies_per_core': 473 / 500.0 / 60.0,
                  'assemblies_per_batch': 1}
     candu_spec = {'template': candu_template,
                   'kg_per_assembly': 8000 / 473 / 60.0,
@@ -525,11 +524,7 @@ def main(csv_file, init_date, duration,
             entry_time = 1
         data['entry_time'] = entry_time
         data['lifetime'] = lifetime
-    # renders reactor / region / input file
     reactor_block = reactor_render(csv_database)
     region_block = region_render(csv_database)
-    #print(reactor_block)
-    #print('\n\n\n')
-    #print(region_block)
     input_render(init_date, duration, reactor_block,
                  region_block, output_file, reprocessing)
