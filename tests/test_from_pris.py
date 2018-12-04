@@ -31,10 +31,12 @@ def test_read_csv():
 def test_filter_test_reactors():
     """Test if filter__reactors filters reactors with
        net electricity capacity less than 100Mwe"""
-    test = np.array([('foo', 85), ('bar', 1200)],
-                    dtype=[('name', 'S10'), ('net_elec_capacity', 'i4')])
-    answer = np.array([('bar', 1200)],
-                      dtype=[('name', 'S10'), ('net_elec_capacity', 'i4')])
+    test = np.array([('foo', 85, 'PWR'), ('bar', 1200, 'PWR')],
+                    dtype=[('name', 'S10'), ('net_elec_capacity', 'i4'),
+                           ('type', 'S10')])
+    answer = np.array([('bar', 1200, 'PWR')],
+                      dtype=[('name', 'S10'), ('net_elec_capacity', 'i4'),
+                             ('type', 'S10')])
     assert fp.filter_test_reactors(test) == answer
 
 

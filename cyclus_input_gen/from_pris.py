@@ -321,9 +321,9 @@ def reactor_render(reactor_data, is_cyborg=False):
                 'assemblies_per_batch': 72 / 1670.0}
 
     reactor_specs = {'AP1000': ap1000_spec,
-                     # 'PHWR': phwr_spec,
+                     'PHWR': phwr_spec,
                      'BWR': bwr_spec,
-                     # 'CANDU': candu_spec,
+                     'CANDU': candu_spec,
                      'PWR': pwr_spec,
                      'EPR': epr_spec}
 
