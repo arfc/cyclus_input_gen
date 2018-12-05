@@ -11,7 +11,7 @@ Then import it anywhere using:
 ## from_pris
 Generates Cyclus input file of nuclear operation history using the International Atomic Energy Agency (IAEA) Power Reactor Information System (PRIS) database.
 
-The IAEA PRIS database is collected and curated (in `database/reactors_pris_2016.csv`),
+The IAEA PRIS database is collected and curated (in `database/world_reactors.csv`),
 but there are still missing values, mostly of future planned reactors.
 
 The assumptions for the parameters are as follows:
@@ -57,3 +57,17 @@ Contains templates to be used in `from_pris`
 ## demand_deploy
 Calculates deploy array to meet a power demand equation.
 Also generates Cycamore::DeployInst xml block from the calculated deploy array
+
+
+## Misc.
+
+### CANDU calculation for `from_pris.py`
+Galeriu and Melintescu - Technical characteristics of the CANDU reactor
+CANDU 6 ( 700 MWe)
+19.36 kg per bundle
+4560 bundles in core
+12 bundle per channel
+average of six fuel bundles in channel exchanged
+10 fuel channels per week
+-> 6*10 = 60 bundles refueling per week
+-> 6*10*4 = 240 bundles refueling per month
