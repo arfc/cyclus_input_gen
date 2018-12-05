@@ -304,11 +304,11 @@ def reactor_render(reactor_data, is_cyborg=False):
                 'assemblies_per_core': 764 / 1000.0,
                 'assemblies_per_batch': 764 / 3000.0}
     phwr_spec = {'template': candu_template,
-                 'kg_per_assembly': 8000 / 473 / 60.0,
+                 'kg_per_assembly': 8000 / 473 * 60.0,
                  'assemblies_per_core': 473 / 500.0 / 60.0,
                  'assemblies_per_batch': 1}
     candu_spec = {'template': candu_template,
-                  'kg_per_assembly': 8000 / 473 / 60.0,
+                  'kg_per_assembly': 8000 / 473 * 60.0,
                   'assemblies_per_core': 473 / 500.0 / 60.0,
                   'assemblies_per_batch': 1}
     pwr_spec = {'template': pwr_template,
