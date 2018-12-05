@@ -1,4 +1,10 @@
-"Power Reactor Information System, © IAEA, 2016, https://pris.iaea.org/PRIS/home.aspx",,,,,,,,,,,,,,,,
+"The majority of the data was extracted from 
+Power Reactor Information System, © IAEA, 2016, https://pris.iaea.org/PRIS/home.aspx
+The following reactors have been manually added, referenced from World Nuclear Association:
+© 2016, 2017, 2018 World Nuclear Association, registered in England and Wales, number 01215741.
+KOZLODUY-7 (Bulgaria) / DUKOVANY-5 (Czech Republic) / HANHIKIVI (Finland) / PAKS-5 (Hungay) / PAKS-6 (Hungary) / CHOCZEWO (Poland) / NONAME (Poland) / HINKLEY POINT C1 (UK) / HINKLEY POINT C2 (UK)
+
+",,,,,,,,,,,,,,,,
 Country,Reactor Unit,Type,Net Capacity (MWe),Status,Operator,Contstruction Date,Construction Year,First Criticality Date,First Grid Date,Commercial Date,Shutdown Date,UCF for 2013,Latitude,Longitude,entry_time,lifetime
 Argentina,ATUCHA-1,PHWR,335,Operational,NASA,6/1/1968,1968,1/13/1974,3/19/1974,6/24/1974,,83.1,-33.96333333,-59.18638889,,
 Argentina,EMBALSE,PHWR,600,Operational,NASA,4/1/1974,1974,3/13/1983,4/25/1983,1/20/1984,,69.6,-32.232,-64.443,,
