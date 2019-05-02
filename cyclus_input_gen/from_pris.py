@@ -262,6 +262,8 @@ def refine_name(name_data):
         refined and decoded name of reactor
     """
     name = name_data.decode('utf-8')
+    name = name.replace(' & ', '_')
+
     start = name.find('(')
     end = name.find(')')
     if start != -1 and end != -1:
