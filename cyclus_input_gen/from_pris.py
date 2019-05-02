@@ -263,6 +263,7 @@ def refine_name(name_data):
     """
     name = name_data.decode('utf-8')
     name = name.replace(' & ', '_')
+    name = name.replace(' ', '_')
 
     start = name.find('(')
     end = name.find(')')
